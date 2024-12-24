@@ -12,12 +12,13 @@ export class AuthController {
   }
 
   @Post('signup')
-  signUp(@Body() body: { email: string; password: string }) {
-    return this.authService.signup(body.email, body.password);
+  async signup(@Body() body: { email: string; password: string; role: 'RECRUITER' | 'JOB_APPLICANT'; companyName?: string }) {
+    // Pass the required arguments to the signup method
+    return this.authService.signup(body.email, body.password, body.role, body.companyName);
   }
 
-  @Post('login')
-  login(@Body() body: { email: string; password: string }) {
+  @Post('signin')
+  async login(@Body() body: { email: string; password: string }) {
     return this.authService.login(body.email, body.password);
   }
 }
