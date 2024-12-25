@@ -12,8 +12,9 @@ async function bootstrap() {
 
     // Enable CORS
     app.enableCors({
-      origin: '*', // Replace '*' with specific origins for better security
+      origin: process.env.REACT_FRONTEND_URL, // Vercel frontend URL
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      allowedHeaders: 'Content-Type, Authorization',
       credentials: true, // Set to true if cookies or other credentials are required
     });
 
