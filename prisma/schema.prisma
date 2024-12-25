@@ -17,7 +17,7 @@ enum Role {
 }
 
 model User {
-  id          BigInt            @id @default(autoincrement())
+  id          String            @id @default(uuid()) // Use UUID for CockroachDB compatibility
   email       String            @unique
   password    String
   role        Role
@@ -30,9 +30,9 @@ model User {
 }
 
 model Company {
-  id          BigInt            @id @default(autoincrement())
+  id          String            @id @default(uuid()) // Use UUID
   name        String
-  ownerId     BigInt            @unique
+  ownerId     String            @unique
   owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   
   // Relationships
@@ -40,11 +40,11 @@ model Company {
 }
 
 model Job {
-  id          BigInt            @id @default(autoincrement())
+  id          String            @id @default(uuid()) // Use UUID
   title       String
   description String
-  skills      String[]
-  companyId   BigInt
+  skills      String[]          @default([]) // Ensure a default value for array fields
+  companyId   String
   company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   
   // Relationships
@@ -52,9 +52,9 @@ model Job {
 }
 
 model JobApplication {
-  id          BigInt            @id @default(autoincrement())
-  jobId       BigInt
-  applicantId BigInt
+  id          String            @id @default(uuid()) // Use UUID
+  jobId       String
+  applicantId String
   status      ApplicationStatus @default(PENDING)
   createdAt   DateTime          @default(now())
   
