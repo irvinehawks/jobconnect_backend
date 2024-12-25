@@ -1,19 +1,14 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file
+// Learn more at: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  //provider = "cockroachdb"
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
-// generator and datasource configurations remain the same
 
 // MODELS OR DB TABLES
 enum Role {
@@ -22,50 +17,50 @@ enum Role {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  password   String
-  role       Role
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id          BigInt            @id @default(autoincrement())
+  email       String            @unique
+  password    String
+  role        Role
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   
   // Relationships
-  company    Company?  // A user with role "recruiter" can own one company
+  company     Company?          // A user with role "recruiter" can own one company
   applications JobApplication[] // A user with role "job_applicant" can apply to many jobs
 }
 
 model Company {
-  id         Int       @id @default(autoincrement())
-  name       String
-  ownerId    Int       @unique
-  owner      User      @relation(fields: [ownerId], references: [id])
+  id          BigInt            @id @default(autoincrement())
+  name        String
+  ownerId     BigInt            @unique
+  owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   
   // Relationships
-  jobs       Job[]
+  jobs        Job[]
 }
 
 model Job {
-  id          Int       @id @default(autoincrement())
+  id          BigInt            @id @default(autoincrement())
   title       String
   description String
   skills      String[]
-  companyId   Int
-  company     Company   @relation(fields: [companyId], references: [id])
+  companyId   BigInt
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   
   // Relationships
   applications JobApplication[]
 }
 
 model JobApplication {
-  id         Int       @id @default(autoincrement())
-  jobId      Int
-  applicantId Int
-  status     ApplicationStatus @default(PENDING) // PENDING, ACCEPTED, REJECTED
-  createdAt  DateTime  @default(now())
+  id          BigInt            @id @default(autoincrement())
+  jobId       BigInt
+  applicantId BigInt
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
   
   // Relationships
-  job        Job       @relation(fields: [jobId], references: [id])
-  applicant  User      @relation(fields: [applicantId], references: [id])
+  job         Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  applicant   User              @relation(fields: [applicantId], references: [id], onDelete: Cascade)
 }
 
 enum ApplicationStatus {
