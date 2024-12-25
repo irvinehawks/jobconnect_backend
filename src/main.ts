@@ -10,24 +10,24 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
 
-    // Enable CORS
+    // Enable CORS with specific configuration
     app.enableCors({
-      origin: process.env.REACT_FRONTEND_URL, // Vercel frontend URL
+      origin: process.env.REACT_FRONTEND_URL || '*', // Use '*' only if necessary for debugging
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       allowedHeaders: 'Content-Type, Authorization',
-      credentials: true, // Set to true if cookies or other credentials are required
+      credentials: true, // True if cookies or credentials are required
     });
 
-    // Global Validation Pipe
+    // Apply global validation pipe
     app.useGlobalPipes(
       new ValidationPipe({
-        whitelist: true, // Strips unallowed properties
-        forbidNonWhitelisted: true, // Throws an error if non-whitelisted properties are present
-        transform: true, // Automatically transform payloads to DTO classes
+        whitelist: true, // Strips properties not in the DTO
+        forbidNonWhitelisted: true, // Throws error for unexpected properties
+        transform: true, // Transforms plain objects to class instances
       }),
     );
 
-    // Start the server
+    // Start the server on the specified port
     const port = process.env.PORT || 8080;
     await app.listen(port);
 

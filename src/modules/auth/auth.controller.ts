@@ -8,17 +8,30 @@ export class AuthController {
 
   @Get('hello')
   hello() {
-    return('Hello Auth endpoints')
+    return 'Hello Auth endpoints';
   }
 
   @Post('signup')
-  async signup(@Body() body: { email: string; password: string; role: 'RECRUITER' | 'JOB_APPLICANT'; companyName?: string }) {
-    // Pass the required arguments to the signup method
+  async signup(
+    @Body() body: { 
+      email: string; 
+      password: string; 
+      role: 'RECRUITER' | 'JOB_APPLICANT'; 
+      companyName?: string; 
+    }
+  ) {
+    // Call the signup method with required arguments
     return this.authService.signup(body.email, body.password, body.role, body.companyName);
   }
 
   @Post('signin')
-  async login(@Body() body: { email: string; password: string }) {
+  async login(
+    @Body() body: { 
+      email: string; 
+      password: string; 
+    }
+  ) {
+    // Call the login method from the auth service
     return this.authService.login(body.email, body.password);
   }
 }
