@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -32,8 +31,11 @@ export class AuthService {
       });
     }
 
+    // Ensure user.id is a number
+    const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+
     // Generate a token
-    const token = this.generateToken(user.id);
+    const token = this.generateToken(userId);
 
     return { token, user };
   }
@@ -47,8 +49,11 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
+    // Ensure user.id is a number
+    const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+
     // Generate a token
-    const token = this.generateToken(user.id);
+    const token = this.generateToken(userId);
 
     return { token, user };
   }
