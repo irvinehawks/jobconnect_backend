@@ -1,7 +1,6 @@
-# compiled output
+# Compiled output
 /dist
 /node_modules
-
 
 # Logs
 logs
@@ -11,6 +10,8 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+# Environment files
 .env
 
 # OS
