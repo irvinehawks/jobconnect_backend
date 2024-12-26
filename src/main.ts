@@ -13,7 +13,7 @@ async function bootstrap() {
     // Enable CORS with specific configuration
     app.enableCors({
       // origin: 'http://localhost:3000', // FOR DEVELOPMENT
-      origin: 'https://jobconnect-frontend.vercel.app/', // FOR PRODUCTION
+      origin: 'https://jobconnect-frontend.vercel.app', // FOR PRODUCTION
       methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
       allowedHeaders: 'Content-Type, Authorization',
       credentials: true, // True if cookies or credentials are required
